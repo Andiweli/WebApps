@@ -1,5 +1,5 @@
-# 🏠 WebApps (Raspberry Pi)  
-**Self-Hosting mit Node.js, Excel-Export & Tailscale**
+# 🏠 WebApps  
+**Self-Hosting für Raspberry Pi mit Node.js**
 
 Kleine, praktische WebApps für den privaten Alltag: lokal im Heimnetz betreibbar, datensparsam und schnell verfügbar.
 Die Anwendungen laufen auf Wunsch auf einem Raspberry Pi und helfen dabei, Notizen/Zettelwirtschaft durch strukturierte Eingaben,
