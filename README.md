@@ -13,14 +13,15 @@ Mit Tailscale kannst du die WebApps außerdem sicher von unterwegs am Smartphone
 ## 📦 WebApps in diesem Repository
 
 ### ☀️ PV Optimizer / Neigungsrechner
-- Optimiert PV-Ausrichtung und Neigungswinkel bei Balkonkraftwerken mit verstellbarer Aufständerung für bessere Erträge
+- Übersichtliche und einfache Berechnung von Neigungsdaten anhand der PVGIS Datenbank
+- Optimiert PV-Ausrichtung und Neigungswinkel für Balkonkraftwerke mit verstellbarer Aufständerung für bessere Erträge
 - Schnelle Szenario-Vergleiche (z.B. Winkel-Schritte, Ausrichtung, Optimierungsziel)
-- Ideal als lokales PV-Dashboard im Heimnetz
 
 - ### 🚗 Renault R5 WebApp
 - Kleines, schnelles Web-Dashboard **für den Renault R5** (fokus: Darstellung & Bedien-UI im Browser)
 - Visuelle Fahrzeugansicht mit schlanker, aufgeräumter Oberfläche
-- Praktisch am Desktop/Tablet und auch mobil am Smartphone nutzbar (responsive)
+- Temperatur und Klimaanlagenstatus ist 15 Min nach Aktivierung gesperrt, dies wird visuell dargestellt
+- Ladevorgang und verbleibende Ladezeit wird ebenfalls visuell und animiert dargestellt
 - Zugandsdaten (Email und Kennwort) müssen in der versteckten Datei `.env` im WebApp Ordner eingetragen und gespeichert werden
 
 ### ⚡ NetzNÖ Zählerstände
