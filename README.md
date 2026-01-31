@@ -12,15 +12,23 @@ Mit Tailscale kannst du die WebApps außerdem sicher von unterwegs am Smartphone
 
 ## 📦 WebApps in diesem Repository
 
-### ☀️ PV Neigungsrechner
+### ☀️ PV Optimizer / Neigungsrechner
 - Optimiert PV-Ausrichtung und Neigungswinkel bei Balkonkraftwerken mit verstellbarer Aufständerung für bessere Erträge
 - Schnelle Szenario-Vergleiche (z.B. Winkel-Schritte, Ausrichtung, Optimierungsziel)
 - Ideal als lokales PV-Dashboard im Heimnetz
 
-### ⚡ NetzNÖ Zählerstand
+- ### 🚗 Renault R5 WebApp
+- Kleines, schnelles Web-Dashboard **für den Renault R5** (fokus: Darstellung & Bedien-UI im Browser)
+- Visuelle Fahrzeugansicht mit schlanker, aufgeräumter Oberfläche
+- Praktisch am Desktop/Tablet und auch mobil am Smartphone nutzbar (responsive)
+- Zugandsdaten (Email und Kennwort) müssen in der versteckten Datei `.env` im WebApp Ordner eingetragen und gespeichert werden
+
+### ⚡ NetzNÖ Zählerstände
 - Komfortables Erfassen von Zählerständen (z.B. Strom/Gas)
 - Historie & Einträge-Listen für Überblick und Kontrolle sowie Verbrauch seit letzter Jahresablesung
 - 📤 Export (Excel) zur Auswertung/Archivierung
+
+<img width="1538" height="1050" alt="github-examples" src="https://github.com/user-attachments/assets/d691a552-4eed-462c-b2ee-7ba3a34aa1e5" />
 
 ---
 
@@ -40,12 +48,6 @@ Mit Tailscale kannst du die WebApps außerdem sicher von unterwegs am Smartphone
 - 🧩 Optional je nach App: lokale Datenhaltung, Export-Generatoren, Helper-Skripte
 
 > Hinweis: Für jede App muss in der jeweiligen `server.js` am Ende der Platzhalter für Port und IP des eigenen Servers angepassts werden.
-
----
-
-## 🖼️ Screenshots
-- `docs/screenshots/pv-neigungsrechner.png` – PV Neigungsrechner (Startansicht)
-- `docs/screenshots/netznoe-zaehlerstand.png` – NetzNÖ Zählerstand (Einträge & Export)
 
 ---
 
