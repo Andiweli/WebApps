@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NetzNÖ Zählerstände</title>
+
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
+
+  <style>
+    * { box-sizing: border-box; }
+    :root { --field-h: 44px; }
+
+    body { font-family: -apple-system, system-ui, sans-serif; margin:0; background:#0b0b0b; color:#eee; }
+
+    header {
+      background:#cccccc;
+      color:#444444;
+      padding:14px 16px;
+      border-bottom:1px solid #e3030e;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+
+    main { max-width: 900px; margin: 0 auto; padding: 16px; padding-top: 104px; }
+    .card { background:#111; border:1px solid #222; border-radius:12px; padding:14px; margin-bottom:14px; }
+    label { display:block; margin:10px 0 6px; color:#bbb; font-size:13px; }
+
+    input, select {
+      width:100%;
+      max-width:100%;
+      min-width:0;
+      min-inline-size: 0;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid #2a2a2a;
+      background:#0d0d0d;
+      color:#eee;
+      display:block;
+      font-size:16px;
+      min-height: var(--field-h);
+      height: var(--field-h);
+      line-height: 1.2;
+    }
+
+    input[type="date"]{
+      -webkit-appearance: none;
+      appearance: none;
+      min-height: var(--field-h);
+      height: var(--field-h);
+      font-size:16px;
+    }
+
+    button {
+      padding:11px 14px;
+      border-radius:10px;
+      border:1px solid rgba(0,0,0,0.25);
+      background:#cccccc;
+      color:#444444;
+      font-weight:700;
+      min-width: 0;
+    }
+    button.primary {
+      background:#cccccc;
+      border-color: rgba(0,0,0,0.35);
+      color:#444444;
+    }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    button.danger {
+      background:#cccccc;
+      border-color: rgba(0,0,0,0.40);
+      color:#444444;
+    }
+
+    .headerBar {
+      max-width:900px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .headerLeft {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+    .appIcon {
+      width: 48px;
+      height: 48px;
+      border-radius: 13px;
+      flex: 0 0 auto;
+      display:block;
+      object-fit: cover;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+    .headerTitleWrap { min-width:0; }
+
+    .muted { color:#aaa; font-size:13px; }
+    header .muted { color: rgba(68,68,68,0.90); }
+
+    .reloadBtn {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0,0,0,0.25);
+      background: #cccccc;
+      color: #444444;
+      font-weight: 900;
+      line-height: 1;
+      font-size: 18px;
+      cursor: pointer;
+      user-select: none;
+      flex: 0 0 auto;
+    }
+
+    .row2 {
+      width: 100%;
+      display:grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap:12px;
+      align-items:end;
+    }
+    .row2 > div { min-width:0; }
+
+    .row1full { width:100%; }
+    .row1full > div { min-width:0; }
+
+    .segToggle {
+      width: 100%;
+      height: var(--field-h);
+      min-height: var(--field-h);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: #0d0d0d;
+      padding: 3px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      align-items: stretch;
+    }
+    .segToggle button {
+      border: 1px solid rgba(0,0,0,0.25);
+      border-radius: 9px;
+      background: #cccccc;
+      color: #444444;
+      font-weight: 900;
+      padding: 0;
+      height: 100%;
+      line-height: 1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      white-space: nowrap;
+      opacity: 1;
+    }
+    .segToggle button.inactive { opacity: 0.45; }
+    .segToggle button.active {
+      border-color: #444444;
+      box-shadow: inset 0 0 0 2px #444444;
+      opacity: 1;
+    }
+
+    .meterWrap { margin-top: 8px; }
+    .meterInput {
+      height: 64px;
+      min-height: 64px;
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-align: center;
+      border-radius: 14px;
+      font-variant-numeric: tabular-nums;
+    }
+    .meterHint { margin-top: 6px; font-size: 12px; color:#aaa; text-align:center; }
+
+    .actionsRow {
+      display:flex;
+      gap:10px;
+      flex-wrap:nowrap;
+      margin-top: 12px;
+      width: 100%;
+    }
+    .actionsRow button {
+      flex: 1 1 0;
+      min-width: 0;
+      white-space: nowrap;
+    }
+
+    .tabsRow {
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom: 10px;
+    }
+    .tabsLeft {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .tabBtns { display:flex; gap:8px; }
+
+    .tabBtn {
+      height: 38px;
+      padding: 0 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,0.25);
+      background: #cccccc;
+      color: #444444;
+      font-weight: 900;
+      opacity: 0.45;
+      white-space: nowrap;
+    }
+    .tabBtn.active {
+      border-color:#444444;
+      box-shadow: inset 0 0 0 2px #444444;
+      opacity: 1;
+    }
+
+    .limitSel {
+      height: 38px;
+      min-height: 38px;
+      border-radius: 12px;
+      border: 1px solid #2a2a2a;
+      background: #0d0d0d;
+      color: #eee;
+      font-weight: 800;
+      font-size: 14px;
+      width: 98px;
+      -webkit-appearance: none;
+      appearance: none;
+      padding-right: 34px;
+
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23eee' d='M4 6l4 4 4-4z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 12px 12px;
+    }
+
+    table {
+      border-collapse:collapse;
+      font-size:14px;
+      width: 100%;
+      table-layout: auto;
+    }
+    th, td {
+      padding:10px 8px;
+      border-bottom:1px solid #222;
+      vertical-align: middle;
+      white-space: nowrap;
+      font-size: 14px;
+    }
+    thead th { text-align:left; }
+    td.col-action, th.col-action { text-align:center; }
+    td.col-annual, th.col-annual { text-align:center; }
+    tr.entryRow { cursor: pointer; }
+    tr.entryRow:hover td { background: rgba(255,255,255,0.03); }
+    tr.entryRow.selected td { background: rgba(255,255,255,0.08); }
+
+    .msg { color:#aaa; font-size:13px; margin-top:10px; }
+
+    .summaryLine { display:flex; justify-content:space-between; gap:12px; padding:8px 0; border-bottom:1px solid #222; }
+    .summaryLine:last-child { border-bottom:none; }
+    .summaryKey { color:#bbb; font-weight:800; }
+    .summaryKey .since { font-weight:400; color:#aaa; }
+    .summaryVal { color:#eee; font-variant-numeric: tabular-nums; }
+
+    .moreArrow {
+      display:none;
+      text-align:center;
+      padding: 10px 0 2px;
+      color:#aaa;
+      font-size: 22px;
+      user-select:none;
+    }
+
+    @media (max-width: 480px) {
+      main { padding: 12px; padding-top: 104px; }
+      .row2 { gap:10px; }
+      .meterInput { font-size: 28px; height: 62px; min-height: 62px; }
+      button { padding: 10px 10px; font-size: 13px; }
+      th, td { padding: 9px 6px; font-size: 13px; }
+      .reloadBtn { width: 38px; height: 38px; }
+      .limitSel { width: 88px; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="headerBar">
+    <div class="headerLeft">
+      <img class="appIcon" src="/apple-touch-icon.png" alt="App Icon" />
+      <div class="headerTitleWrap">
+        <div style="font-weight:900; font-size:1.5em;">NetzNÖ Zählerstände</div>
+        <div class="muted">Strom & Gas – Verbrauch automatisch berechnet</div>
+      </div>
+    </div>
+    <button class="reloadBtn" id="reloadBtn" title="Neu laden" aria-label="Neu laden">↻</button>
+  </div>
+</header>
+
+<main>
+  <div class="card">
+    <h3 style="margin:0 0 10px;">Verbrauch seit letzter Ablesung</h3>
+    <div class="summaryLine">
+      <div class="summaryKey" id="sumStromKey">Strom <span class="since" id="sumStromSince"></span></div>
+      <div class="summaryVal" id="sumStrom">—</div>
+    </div>
+    <div class="summaryLine">
+      <div class="summaryKey" id="sumGasKey">Gas <span class="since" id="sumGasSince"></span></div>
+      <div class="summaryVal" id="sumGas">—</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin:0 0 10px;">Eintrag</h3>
+
+    <div class="row2">
+      <div>
+        <label>Datum</label>
+        <input id="date" type="date" />
+      </div>
+
+      <div>
+        <label>Jahresablesung</label>
+        <input type="radio" name="annual" id="aNo" value="0" checked style="display:none">
+        <input type="radio" name="annual" id="aYes" value="1" style="display:none">
+        <div class="segToggle" id="annualToggle" role="group" aria-label="Jahresablesung Ja oder Nein">
+          <button type="button" id="btnAnnualNo">Nein</button>
+          <button type="button" id="btnAnnualYes">Ja</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row1full" style="margin-top:10px;">
+      <div>
+        <label>Typ</label>
+        <input type="radio" name="kind" id="kStrom" value="strom" checked style="display:none">
+        <input type="radio" name="kind" id="kGas" value="gas" style="display:none">
+        <div class="segToggle" id="kindToggle" role="group" aria-label="Strom oder Gas">
+          <button type="button" id="btnStrom">Strom</button>
+          <button type="button" id="btnGas">Gas</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="meterWrap">
+      <label id="readingLabel">Zählerstand (Strom)</label>
+      <input id="reading" class="meterInput" type="text" inputmode="decimal" autocomplete="off" />
+      <div class="meterHint" id="readingHint">Format: 000000,00</div>
+    </div>
+
+    <div class="actionsRow">
+      <button class="primary" id="saveBtn">Speichern</button>
+      <button id="updateBtn" disabled>Aktualisieren</button>
+      <button id="exportBtn">XLS Export</button>
+    </div>
+
+    <div class="msg" id="msg"></div>
+  </div>
+
+  <div class="card">
+    <div class="tabsRow">
+      <h3 style="margin:0;">Einträge</h3>
+      <div class="tabsLeft">
+        <select id="limitSel" class="limitSel" title="Anzahl Einträge">
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="250">250</option>
+        </select>
+        <div class="tabBtns">
+          <button class="tabBtn active" id="tabStrom" type="button">Strom</button>
+          <button class="tabBtn" id="tabGas" type="button">Gas</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="overflow:auto; -webkit-overflow-scrolling:touch;">
+      <table>
+        <thead>
+          <tr>
+            <th class="col-action">Aktion</th>
+            <th>Datum</th>
+            <th>Zählerstand</th>
+            <th>Verbrauch</th>
+            <th class="col-annual" title="Jahresablesung">🕒</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="moreArrow" id="moreArrow">▼</div>
+  </div>
+</main>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const msg = (t) => { $("msg").textContent = t || ""; };
+
+  let editingId = null;
+  let activeTab = "strom";
+  let limit = 10;
+
+  function padLeft(s, n){ return String(s).padStart(n, "0"); }
+  function padRight(s, n){ return String(s).padEnd(n, "0"); }
+
+  function toDmy(iso) {
+    // iso: YYYY-MM-DD
+    const s = String(iso || "").trim();
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+    if (!m) return "";
+    return `${m[3]}.${m[2]}.${m[1]}`;
+  }
+
+  function getKind() { return $("kGas").checked ? "gas" : "strom"; }
+
+  function setKind(kind) {
+    const k = (String(kind).toLowerCase() === "gas") ? "gas" : "strom";
+    $("kGas").checked = (k === "gas");
+    $("kStrom").checked = (k !== "gas");
+    syncKindUI();
+    updateReadingUI();
+  }
+
+  function getAnnual() { return $("aYes").checked ? 1 : 0; }
+
+  function setAnnual(v) {
+    const yes = (v === 1 || v === "1" || v === true || String(v).toLowerCase() === "ja");
+    $("aYes").checked = !!yes;
+    $("aNo").checked = !yes;
+    syncAnnualUI();
+  }
+
+  function syncKindUI() {
+    const isGas = getKind() === "gas";
+    $("btnStrom").classList.toggle("active", !isGas);
+    $("btnGas").classList.toggle("active", isGas);
+    $("btnStrom").classList.toggle("inactive", isGas);
+    $("btnGas").classList.toggle("inactive", !isGas);
+  }
+
+  function syncAnnualUI() {
+    const isYes = getAnnual() === 1;
+    $("btnAnnualNo").classList.toggle("active", !isYes);
+    $("btnAnnualYes").classList.toggle("active", isYes);
+    $("btnAnnualNo").classList.toggle("inactive", isYes);
+    $("btnAnnualYes").classList.toggle("inactive", !isYes);
+  }
+
+  function updateReadingUI() {
+    const k = getKind();
+    $("readingLabel").textContent = k === "gas" ? "Zählerstand (Gas)" : "Zählerstand (Strom)";
+    $("readingHint").textContent = k === "gas" ? "Format: 00000,000" : "Format: 000000,00";
+  }
+
+  function normalizeReading(kind, raw) {
+    let s = String(raw ?? "").trim().replace(/\s+/g, "");
+    s = s.replace(".", ",");
+    s = s.replace(/[^0-9,]/g, "");
+    const parts = s.split(",");
+    const whole = (parts[0] || "").replace(/\D/g, "");
+    const frac = (parts[1] || "").replace(/\D/g, "");
+
+    const wholeLen = (kind === "gas") ? 5 : 6;
+    const fracLen = (kind === "gas") ? 3 : 2;
+
+    const w = padLeft(whole, wholeLen).slice(-wholeLen);
+    const f = padRight(frac, fracLen).slice(0, fracLen);
+    return `${w},${f}`;
+  }
+
+  function setModeUI(isEditing) {
+    const saveBtn = $("saveBtn");
+    const updateBtn = $("updateBtn");
+
+    if (isEditing) {
+      updateBtn.classList.add("primary");
+      updateBtn.disabled = false;
+
+      saveBtn.classList.remove("primary");
+      saveBtn.disabled = true;
+    } else {
+      saveBtn.classList.add("primary");
+      saveBtn.disabled = false;
+
+      updateBtn.classList.remove("primary");
+      updateBtn.disabled = true;
+    }
+  }
+
+  function clearSelectionUI() {
+    document.querySelectorAll("tr.entryRow.selected").forEach(r => r.classList.remove("selected"));
+  }
+
+  function setActiveTab(tab) {
+    activeTab = (String(tab).toLowerCase() === "gas") ? "gas" : "strom";
+    $("tabStrom").classList.toggle("active", activeTab === "strom");
+    $("tabGas").classList.toggle("active", activeTab === "gas");
+    loadEntries(activeTab);
+  }
+
+  function setDefaults() {
+    const now = new Date();
+    $("date").value = now.toISOString().slice(0,10);
+    setAnnual(0); // default: Nein
+  }
+
+  function loadLimitFromStorage() {
+    const v = Number(localStorage.getItem("netznoe_limit") || "10");
+    limit = [10,25,50,100,250].includes(v) ? v : 10;
+    $("limitSel").value = String(limit);
+  }
+
+  async function loadSummary() {
+    try {
+      const r = await fetch("/api/summary", { cache: "no-store" });
+      if (!r.ok) throw new Error("GET /api/summary failed: " + r.status);
+      const data = await r.json();
+
+      const stromSince = data.strom && data.strom.since_date ? `(${toDmy(data.strom.since_date)})` : "";
+      const gasSince = data.gas && data.gas.since_date ? `(${toDmy(data.gas.since_date)})` : "";
+      $("sumStromSince").textContent = stromSince ? " " + stromSince : "";
+      $("sumGasSince").textContent = gasSince ? " " + gasSince : "";
+
+      const strom = data.strom && data.strom.value ? `${data.strom.value} ${data.strom.unit}` : "—";
+      const gas = data.gas && data.gas.value ? `${data.gas.value} ${data.gas.unit}` : "—";
+      $("sumStrom").textContent = strom;
+      $("sumGas").textContent = gas;
+    } catch (e) {
+      console.error(e);
+      $("sumStromSince").textContent = "";
+      $("sumGasSince").textContent = "";
+      $("sumStrom").textContent = "—";
+      $("sumGas").textContent = "—";
+    }
+  }
+
+  async function loadEntries(kind) {
+    try {
+      msg("Lade…");
+      $("moreArrow").style.display = "none";
+
+      const r = await fetch(`/api/entries?kind=${encodeURIComponent(kind)}&limit=${encodeURIComponent(limit)}`, { cache: "no-store" });
+      if (!r.ok) throw new Error("GET /api/entries failed: " + r.status);
+      const data = await r.json();
+
+      const rows = data.rows || [];
+      const tb = $("tbody");
+      tb.innerHTML = "";
+
+      for (const e of rows) {
+        const rowKind = (String(e.kind || kind).toLowerCase() === "gas") ? "gas" : "strom";
+        const consSuffix = rowKind === "gas" ? " m³" : " kWh";
+        const consDisp = (e.consumption && String(e.consumption).length) ? (e.consumption + consSuffix) : "";
+        const annualCheck = Number(e.annual) === 1 ? "✓" : "";
+
+        const tr = document.createElement("tr");
+        tr.className = "entryRow";
+        tr.dataset.id = e.id;
+        tr.dataset.date = e.date || "";
+        tr.dataset.kind = rowKind;
+        tr.dataset.reading = e.reading || "";
+        tr.dataset.annual = Number(e.annual) === 1 ? "1" : "0";
+
+        tr.innerHTML = `
+          <td class="col-action"><button class="danger" data-del="${e.id}">Löschen</button></td>
+          <td>${e.date || ""}</td>
+          <td>${e.reading || ""}</td>
+          <td>${consDisp}</td>
+          <td class="col-annual">${annualCheck}</td>
+        `;
+
+        tb.appendChild(tr);
+
+        if (editingId !== null && Number(e.id) === Number(editingId)) {
+          tr.classList.add("selected");
+        }
+      }
+
+      if (data.total > data.limit) {
+        $("moreArrow").style.display = "block";
+      }
+
+      if (editingId === null) {
+        msg(`OK (${rows.length})`);
+        setModeUI(false);
+      } else {
+        setModeUI(true);
+      }
+    } catch (err) {
+      console.error(err);
+      msg("Fehler beim Laden. (Konsole prüfen)");
+    }
+  }
+
+  function collectPayload() {
+    const kind = getKind();
+    const readingFixed = normalizeReading(kind, $("reading").value);
+    return {
+      date: $("date").value,
+      kind,
+      reading: readingFixed,
+      annual: getAnnual()
+    };
+  }
+
+  function isValidPayload(p) {
+    if (!p.date) return false;
+    const k = p.kind;
+    const fmt = String(p.reading || "");
+    if (k === "gas") return /^\d{5},\d{3}$/.test(fmt);
+    return /^\d{6},\d{2}$/.test(fmt);
+  }
+
+  async function saveEntry() {
+    try {
+      if ($("saveBtn").disabled) return;
+      if (document.activeElement && typeof document.activeElement.blur === "function") document.activeElement.blur();
+
+      const payload = collectPayload();
+      if (!isValidPayload(payload)) {
+        msg(payload.kind === "gas" ? "Bitte Gas im Format 00000,000 eingeben." : "Bitte Strom im Format 000000,00 eingeben.");
+        return;
+      }
+
+      msg("Speichere…");
+      const r = await fetch("/api/entries", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(payload),
+        cache: "no-store"
+      });
+      if (!r.ok) throw new Error("POST /api/entries failed: " + r.status);
+
+      $("reading").value = normalizeReading(getKind(), $("reading").value);
+      await loadEntries(activeTab);
+      await loadSummary();
+      msg("Gespeichert ✅");
+    } catch (err) {
+      console.error(err);
+      msg("Fehler beim Speichern. (Konsole prüfen)");
+    }
+  }
+
+  async function updateEntry() {
+    try {
+      if (editingId === null) return;
+      if ($("updateBtn").disabled) return;
+      if (document.activeElement && typeof document.activeElement.blur === "function") document.activeElement.blur();
+
+      const payload = collectPayload();
+      if (!isValidPayload(payload)) {
+        msg(payload.kind === "gas" ? "Bitte Gas im Format 00000,000 eingeben." : "Bitte Strom im Format 000000,00 eingeben.");
+        return;
+      }
+
+      msg(`Aktualisiere #${editingId}…`);
+      const r = await fetch(`/api/entries/${editingId}`, {
+        method: "PUT",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(payload),
+        cache: "no-store"
+      });
+      if (!r.ok) throw new Error("PUT /api/entries/:id failed: " + r.status);
+
+      await loadEntries(activeTab);
+      await loadSummary();
+      msg(`Aktualisiert ✅ (Eintrag #${editingId})`);
+    } catch (err) {
+      console.error(err);
+      msg("Fehler beim Aktualisieren. (Konsole prüfen)");
+    }
+  }
+
+  function enterEditMode(tr) {
+    editingId = Number(tr.dataset.id);
+    $("date").value = tr.dataset.date || "";
+
+    setKind(tr.dataset.kind || "strom");
+    $("reading").value = tr.dataset.reading || "";
+    setAnnual(tr.dataset.annual || "0");
+
+    clearSelectionUI();
+    tr.classList.add("selected");
+
+    setModeUI(true);
+    msg(`Bearbeite Eintrag #${editingId} – "Aktualisieren" überschreibt diesen Eintrag.`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  document.addEventListener("click", async (ev) => {
+    const delId = ev.target && ev.target.dataset ? ev.target.dataset.del : null;
+    if (delId) {
+      ev.stopPropagation();
+      if (!confirm("Eintrag wirklich löschen?")) return;
+
+      try {
+        msg("Lösche…");
+        const r = await fetch(`/api/entries/${delId}`, { method: "DELETE", cache: "no-store" });
+        if (!r.ok) throw new Error("DELETE failed: " + r.status);
+
+        if (editingId !== null && Number(delId) === Number(editingId)) {
+          editingId = null;
+          clearSelectionUI();
+          setModeUI(false);
+          msg("Eintrag gelöscht.");
+        }
+
+        await loadEntries(activeTab);
+        await loadSummary();
+      } catch (err) {
+        console.error(err);
+        msg("Fehler beim Löschen. (Konsole prüfen)");
+      }
+      return;
+    }
+
+    const tr = ev.target && ev.target.closest ? ev.target.closest("tr.entryRow") : null;
+    if (tr) {
+      if (ev.target && ev.target.tagName === "BUTTON") return;
+      enterEditMode(tr);
+    }
+  });
+
+  $("btnStrom").addEventListener("click", () => { setKind("strom"); setActiveTab("strom"); });
+  $("btnGas").addEventListener("click", () => { setKind("gas"); setActiveTab("gas"); });
+
+  $("btnAnnualNo").addEventListener("click", () => setAnnual(0));
+  $("btnAnnualYes").addEventListener("click", () => setAnnual(1));
+
+  $("tabStrom").addEventListener("click", () => setActiveTab("strom"));
+  $("tabGas").addEventListener("click", () => setActiveTab("gas"));
+
+  $("limitSel").addEventListener("change", () => {
+    const v = Number($("limitSel").value);
+    limit = [10,25,50,100,250].includes(v) ? v : 10;
+    localStorage.setItem("netznoe_limit", String(limit));
+    loadEntries(activeTab);
+  });
+
+  $("reading").addEventListener("blur", () => {
+    $("reading").value = normalizeReading(getKind(), $("reading").value);
+  });
+
+  $("saveBtn").addEventListener("click", saveEntry);
+  $("updateBtn").addEventListener("click", updateEntry);
+  $("exportBtn").addEventListener("click", () => window.location.href = "/api/export.xlsx");
+  $("reloadBtn").addEventListener("click", () => location.reload());
+
+  setDefaults();
+  loadLimitFromStorage();
+  syncAnnualUI();
+  syncKindUI();
+  updateReadingUI();
+  setModeUI(false);
+  setActiveTab("strom");
+  loadSummary();
+</script>
+</body>
+</html>

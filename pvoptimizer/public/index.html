@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PV Optimizer</title>
+
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <div class="topbar-left">
+        <img class="appicon" src="/apple-touch-icon.png" alt="" aria-hidden="true" />
+        <div class="topbar-text">
+          <div class="topbar-title">PV Optimizer</div>
+          <div class="topbar-sub">PVGIS Backend API Rechner</div>
+        </div>
+      </div>
+
+      <button id="btnReload" class="iconbtn" type="button" aria-label="Seite neu laden" title="Neu laden">
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M21 12a9 9 0 1 1-2.64-6.36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M21 4v6h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="grid">
+        <!-- LEFT: inputs -->
+        <div class="card">
+          <div class="section-title">Erforderliche Basisdaten</div>
+
+          <div class="plzrow">
+            <div class="grow">
+              <label for="plz">PLZ</label>
+              <input id="plz"
+                     type="number"
+                     inputmode="numeric"
+                     pattern="[0-9]*"
+                     min="0"
+                     step="1"
+                     placeholder="z.B. 2230"
+                     autocomplete="postal-code" />
+            </div>
+            <div class="btncol">
+              <button id="btnGeocode" type="button">PLZ → Koordinaten</button>
+            </div>
+          </div>
+
+          <label for="coords">Koordinaten</label>
+          <input id="coords" type="text" placeholder="z.B. 48.333333, 16.716667" inputmode="decimal" />
+
+          <label for="az">Ausrichtung / Azimut (°)</label>
+          <input id="az" type="number" min="0" max="360" step="0.1" value="" placeholder="z.B. 180" inputmode="decimal" />
+          <div class="miniinfo miniinfo-sm">0°=Nord, 90°=Ost, 180°=Süd, 270°=West.</div>
+
+          <label for="peakpower">Modulleistung (kWp)</label>
+          <select id="peakpower" aria-label="Modulleistung (kWp)"></select>
+
+          <label>Optimieren für</label>
+          <div class="toggle toggle3" data-toggle="season">
+            <input type="hidden" id="seasonValue" value="summer" />
+            <button type="button" class="tbtn active" data-value="summer">Sommer</button>
+            <button type="button" class="tbtn" data-value="winter">Winter</button>
+            <button type="button" class="tbtn" data-value="year">Ganzjahr</button>
+          </div>
+          <div class="miniinfo miniinfo-sm">Sommerhalbjahr: April–September · Winterhalbjahr: Oktober–März</div>
+
+          <label>Winkel-Schritt</label>
+          <div class="toggle toggle2" data-toggle="step">
+            <input type="hidden" id="stepValue" value="1" />
+            <button type="button" class="tbtn active" data-value="1">1°</button>
+            <button type="button" class="tbtn" data-value="0.5">0,5°</button>
+          </div>
+
+          <div class="row actions">
+            <button id="btnCalc" type="button">Optimalen Winkel berechnen</button>
+          </div>
+        </div>
+
+        <!-- RIGHT: results -->
+        <div class="card">
+          <div class="section-title">Ergebnis</div>
+          <div id="out" class="out" tabindex="-1">—</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
