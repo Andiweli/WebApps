@@ -12,6 +12,11 @@ Mit Tailscale kannst du die WebApps außerdem sicher von unterwegs am Smartphone
 
 ## 📦 WebApps in diesem Repository
 
+### ⚡ NetzNÖ Zählerstände
+- Komfortables Erfassen von Zählerständen (z.B. Strom/Gas)
+- Historie & Einträge-Listen für Überblick und Kontrolle sowie Verbrauch seit letzter Jahresablesung
+- 📤 Export (Excel) zur Auswertung/Archivierung
+  
 ### ☀️ PV Optimizer / Neigungsrechner
 - Übersichtliche und einfache Berechnung von Neigungsdaten anhand der PVGIS Datenbank
 - Optimiert PV-Ausrichtung und Neigungswinkel für Balkonkraftwerke mit verstellbarer Aufständerung für bessere Erträge
@@ -22,13 +27,9 @@ Mit Tailscale kannst du die WebApps außerdem sicher von unterwegs am Smartphone
 - Visuelle Fahrzeugansicht mit schlanker, aufgeräumter Oberfläche
 - Temperatur und Klimaanlagenstatus ist 15 Min nach Aktivierung gesperrt, dies wird visuell dargestellt
 - Ladevorgang und verbleibende Ladezeit wird ebenfalls visuell und animiert dargestellt
-- Zugandsdaten (Email und Kennwort) müssen in der versteckten Datei `.env` im WebApp Ordner eingetragen und gespeichert werden
-
-### ⚡ NetzNÖ Zählerstände
-- Komfortables Erfassen von Zählerständen (z.B. Strom/Gas)
-- Historie & Einträge-Listen für Überblick und Kontrolle sowie Verbrauch seit letzter Jahresablesung
-- 📤 Export (Excel) zur Auswertung/Archivierung
-
+- Zugandsdaten (Email und Kennwort) müssen in der versteckten Datei `.env` im WebApp Ordner eingetragen und gespeichert werden  
+<br/>
+  
 <img width="1538" height="1050" alt="github-examples" src="https://github.com/user-attachments/assets/d691a552-4eed-462c-b2ee-7ba3a34aa1e5" />
 
 ---
@@ -63,7 +64,7 @@ Mit Tailscale kannst du die WebApps außerdem sicher von unterwegs am Smartphone
 1. Repository klonen  
    `git clone ...`
 2. In die App wechseln (z.B. `pvoptimizer` oder `netznoe`)
-3. Port und IP in der `server.js` konfigurieren
+3. Port und IP in der `server.js` konfigurieren bzw. Anmeldedaten in `.env` Datei eintragen
 4. Dependencies installieren  
    `npm install`
 5. Starten  
@@ -97,19 +98,19 @@ Mit Tailscale kannst du die WebApps sicher über dein eigenes privates Netzwerk 
 ---
 
 ## 📤 Datenexport (Excel)
-Viele Ansichten unterstützen den Export als Excel-Datei – z.B. für Archivierung oder eigene Auswertungen in Excel.
+Manche Ansichten unterstützen den Export als Excel-Datei – z.B. für Archivierung oder eigene Auswertungen in Excel.
 So kannst du deine Daten langfristig sichern und flexibel weiterverarbeiten.
 
 ---
 
 ## 🗂️ Ordnerstruktur (Beispiel)
-- `pvoptimizer/` – PV Neigungsrechner (Node.js WebApp)
 - `netznoe/` – NetzNÖ Zählerstand (Node.js WebApp)
-
+- `pvoptimizer/` – PV Neigungsrechner (Node.js WebApp)
+- `renault5/` - Renault R5 Dashboard (Node.js WebApp)
 ---
 
 ## 📄 Lizenz
-Dieses Projekt ist unter der **MIT License** lizenziert – du darfst den Code frei nutzen, kopieren, ändern, zusammenführen,
+Diese Projekte sind unter der **MIT License** lizenziert – du darfst den Code frei nutzen, kopieren, ändern, zusammenführen,
 veröffentlichen, verbreiten, unterlizenzieren und/oder verkaufen, solange der Copyright-Hinweis und der Lizenztext erhalten bleiben.
 
 ---
