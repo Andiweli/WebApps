@@ -121,5 +121,5 @@ veröffentlichen, verbreiten, unterlizenzieren und/oder verkaufen, solange der C
 ---
 
 ## ⚠️ Hinweis / Haftungsausschluss
-Private Hobby-Projekte – Nutzung auf eigenes Risiko.
+Private Hobby-Projekte – Nutzung auf eigenes Risiko.  
 Renault Renderings und Logo © renault Group; NÖ Netz Logo © Netz Niederösterreich GmbH; Viessmann Service Icon © Viessmann Generations Group GmbH & Co. KG
