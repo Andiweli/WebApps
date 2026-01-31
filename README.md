@@ -29,7 +29,12 @@ Mit Tailscale kannst du die WebApps außerdem sicher von unterwegs am Smartphone
 - Ladevorgang und verbleibende Ladezeit wird ebenfalls visuell und animiert dargestellt
 - Zugandsdaten (Email und Kennwort) müssen in der versteckten Datei `.env` im WebApp Ordner eingetragen und gespeichert werden  
 <br/>
-  
+
+---
+
+## 🖼️ Screenshots  
+*Quelle: iPhone, WebApps sind jedoch alle responsive und auch am PC, Mac oder Tablet abrufbar.*  
+
 <img width="1538" height="1050" alt="github-examples" src="https://github.com/user-attachments/assets/d691a552-4eed-462c-b2ee-7ba3a34aa1e5" />
 
 ---
