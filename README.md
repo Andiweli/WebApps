@@ -22,6 +22,8 @@ Mit Tailscale kannst du die WebApps außerdem sicher von unterwegs am Smartphone
 - Historie & Einträge-Listen für Überblick und Kontrolle sowie Verbrauch seit letzter Jahresablesung
 - 📤 Export (Excel) zur Auswertung/Archivierung
 
+<img width="1538" height="1050" alt="github-examples" src="https://github.com/user-attachments/assets/d691a552-4eed-462c-b2ee-7ba3a34aa1e5" />
+
 ---
 
 ## ✨ Highlights
@@ -40,12 +42,6 @@ Mit Tailscale kannst du die WebApps außerdem sicher von unterwegs am Smartphone
 - 🧩 Optional je nach App: lokale Datenhaltung, Export-Generatoren, Helper-Skripte
 
 > Hinweis: Für jede App muss in der jeweiligen `server.js` am Ende der Platzhalter für Port und IP des eigenen Servers angepassts werden.
-
----
-
-## 🖼️ Screenshots
-- `docs/screenshots/pv-neigungsrechner.png` – PV Neigungsrechner (Startansicht)
-- `docs/screenshots/netznoe-zaehlerstand.png` – NetzNÖ Zählerstand (Einträge & Export)
 
 ---
 
