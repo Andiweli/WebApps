@@ -1,4 +1,4 @@
-# 🏠 WebApps für Zuhause (Raspberry Pi)  
+# 🏠 WebApps (Raspberry Pi)  
 **Self-Hosting mit Node.js, Excel-Export & Tailscale**
 
 Kleine, praktische WebApps für den privaten Alltag: lokal im Heimnetz betreibbar, datensparsam und schnell verfügbar.
