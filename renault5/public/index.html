@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Renault Dashboard</title>
+
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <!-- Favicons / App Icons -->
+  <link rel="icon" href="/apple-touch-icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="shortcut icon" href="/apple-touch-icon.png" type="image/png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- bump version to force refresh -->
+  <link rel="stylesheet" href="/styles.css?v=20260131_1" />
+</head>
+<body>
+  <!-- ✅ echter Fixed Background Layer (scrollt garantiert nicht mit) -->
+  <div class="bg-layer" aria-hidden="true"></div>
+
+  <header class="appbar">
+    <div class="appbar-inner">
+      <div class="brand">
+        <div class="brand-text">
+          <div class="brand-title" id="brandTitle">Renault R5 E-Tech</div>
+          <div class="brand-sub" id="brandSub">VIN: —</div>
+        </div>
+      </div>
+
+      <div class="appbar-actions">
+        <button class="iconbtn" id="btnRefresh" aria-label="Aktualisieren" title="Aktualisieren">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M17.65 6.35A7.95 7.95 0 0 0 12 4a8 8 0 1 0 7.75 6h-2.1A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L14 10h6V4l-2.35 2.35z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-card">
+        <div class="kpi-grid kpi-grid-4">
+          <div class="img-tile noframe" aria-label="Fahrzeugbild">
+            <img id="carImg" class="car-img" alt="Fahrzeug" />
+            <div class="car-img-fallback" id="carFallback">🚗</div>
+          </div>
+
+          <div class="kpi">
+            <div class="kpi-label" id="batteryTitle">Batterie</div>
+            <div class="kpi-value"><span id="soc">—</span><span class="unit">%</span></div>
+            <div class="bar"><div class="bar-fill" id="socBar" style="width:0%"></div></div>
+            <div class="kpi-sub" id="chargeSub">Restzeit: —</div>
+          </div>
+
+          <div class="kpi">
+            <div class="kpi-label">Reichweite</div>
+            <div class="kpi-value"><span id="range">—</span><span class="unit">km</span></div>
+            <div class="kpi-sub" id="powerSub">Leistung: —</div>
+          </div>
+
+          <div class="kpi">
+            <div class="kpi-label">Kilometerstand</div>
+            <div class="kpi-value"><span id="odo">—</span><span class="unit">km</span></div>
+            <div class="kpi-sub" id="odoSub">—</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cards cards-2col">
+      <!-- Klimaanlage -->
+      <article class="card card-hvac">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Klimaanlage</div>
+            <div class="card-sub">
+              Status:
+              <b id="hvacStatusText">nicht in Betrieb</b>
+              <span id="hvacCountdown"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hvac-top">
+          <div class="seg">
+            <button class="seg-btn" data-temp="18" type="button">18°</button>
+            <button class="seg-btn" data-temp="19" type="button">19°</button>
+            <button class="seg-btn is-active" data-temp="20" type="button">20°</button>
+            <button class="seg-btn" data-temp="21" type="button">21°</button>
+            <button class="seg-btn" data-temp="22" type="button">22°</button>
+          </div>
+
+          <button id="hvacToggleBtn" class="hvac-toggle" type="button" aria-pressed="false">
+            <span class="hvac-toggle-label off">Ausgeschaltet</span>
+            <span class="hvac-toggle-label on">Eingeschaltet</span>
+            <span class="hvac-toggle-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Standort -->
+      <article class="card card-map card-map-bleed">
+        <div class="map-wrap" id="mapWrap">
+          <iframe
+            id="mapFrame"
+            class="map-frame"
+            title="Karte"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="about:blank">
+          </iframe>
+
+          <div class="map-empty" id="mapEmpty">Keine Koordinaten verfügbar.</div>
+
+          <div class="map-guard" id="mapGuard">
+            <div class="map-guard-hint" id="mapHintDesktop">ALT + Drag/Scroll zum Bewegen/Zoomen</div>
+            <div class="map-guard-hint" id="mapHintMobile">Mit zwei Fingern bewegen/zoomen</div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <div class="statusbar">
+      <span id="statusLine">Bereit.</span>
+    </div>
+  </main>
+
+  <script src="/app.js?v=20260130_4"></script>
+</body>
+</html>

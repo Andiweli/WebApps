@@ -1,0 +1,494 @@
+:root{
+  --bg: #000000;
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.62);
+  --blue: #0A84FF;
+  --red: #cc0000;
+
+  --shadow: 0 12px 34px rgba(0,0,0,0.45);
+  --shadow2: 0 18px 60px rgba(0,0,0,0.55);
+
+  --radius: 18px;
+  --radius2: 22px;
+
+  --header-bg: #191512;
+  --header-line: #a93840;
+}
+
+*{ box-sizing: border-box; }
+html,body{ height:100%; }
+
+body{
+  margin:0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, Segoe UI, Arial, sans-serif;
+  color: #fff;
+  background: var(--bg);
+}
+
+/* ✅ Hintergrund: /public/background.png + Gaussian Blur (20px), fixed */
+.bg-layer{
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.bg-layer::before{
+  content:"";
+  position:absolute;
+  inset:-40px;
+  background-image: url("/background.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  filter: blur(20px);
+  transform: scale(1.08);
+  opacity: 1;
+}
+
+.bg-layer::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: rgba(0,0,0,0.35);
+}
+
+/* App Bar */
+.appbar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: var(--header-bg);
+  color: #fff;
+  border-bottom: 2px solid var(--header-line);
+}
+
+.appbar-inner{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brand{ display:flex; align-items:center; }
+.brand-title{
+  font-weight: 900;
+  letter-spacing: .2px;
+  font-size: 32px;
+  line-height: 1.05;
+  color:#fff;
+}
+.brand-sub{
+  font-size: 12px;
+  color: rgba(255,255,255,0.75);
+  margin-top: 4px;
+}
+
+/* icon button */
+.iconbtn{
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.05) inset;
+}
+.iconbtn:hover{ background: rgba(255,255,255,0.10); }
+.iconbtn svg{
+  width: 22px;
+  height: 22px;
+  fill: rgba(255,255,255,0.92);
+}
+
+/* Layout */
+.page{
+  max-width: 1100px;
+  margin: 0 auto;
+  /* mehr Abstand unter dem Header */
+  padding: 112px 16px 14px 16px;
+}
+
+/* ✅ TEST-FIX: Kein backdrop-filter auf Hauptkacheln (verhindert WebKit Alpha-Bugs) */
+.hero-card{
+  background: rgba(25, 21, 18, 0.10);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: var(--radius2);
+  box-shadow: var(--shadow2);
+  padding: 14px;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* KPI grid */
+.kpi-grid{
+  display:grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: stretch;
+}
+@media (min-width: 960px){
+  .kpi-grid-4{ grid-template-columns: repeat(4, 1fr); }
+}
+
+.kpi{
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: var(--radius);
+  padding: 12px;
+  background: rgba(28, 28, 30, 0.88);
+  box-shadow: var(--shadow);
+  display:flex;
+  flex-direction: column;
+  min-height: 132px;
+}
+.kpi-label{ font-size: 12px; color: rgba(255,255,255,0.70); }
+.kpi-value{
+  font-size: 30px;
+  font-weight: 900;
+  margin-top: 4px;
+  letter-spacing: .2px;
+}
+.unit{ font-size: 16px; color: rgba(255,255,255,0.65); margin-left: 4px; font-weight: 700; }
+.kpi-sub{ font-size: 12px; color: rgba(255,255,255,0.70); margin-top: auto; }
+
+.bar{
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.09);
+  overflow:hidden;
+  margin-top: 10px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.bar-fill{
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, rgba(10,132,255,0.95), rgba(10,132,255,0.30));
+}
+
+/* Image tile */
+.img-tile{
+  position: relative;
+  border-radius: var(--radius);
+  overflow:hidden;
+  min-height: 132px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* ✅ wichtige Isolation: PNG-Alpha bleibt korrekt, auch wenn außen viel passiert */
+.img-tile.noframe{
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  isolation: isolate;
+}
+
+/* ✅ PNG mit Alpha: keine Filter, kein 3D-transform */
+.car-img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 6px;
+  display:none;
+  background: transparent;
+  filter: none;
+  -webkit-filter: none;
+  transform: none;
+  -webkit-transform: none;
+}
+
+.car-img-fallback{
+  font-size: 42px;
+  color: rgba(255,255,255,0.35);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Cards */
+.cards{
+  display:grid;
+  gap: 12px;
+  margin-top: 12px;
+  grid-template-columns: 1fr;
+}
+
+/* Desktop: beide Karten gleiche Row-Höhe */
+@media (min-width: 900px){
+  .cards-2col{
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+  }
+  .cards-2col > .card{
+    height: auto;
+    display:flex;
+    flex-direction: column;
+  }
+  .card-map-bleed .map-wrap{
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+}
+
+/* ✅ TEST-FIX: auch hier kein backdrop-filter */
+.card{
+  background: rgba(25, 21, 18, 0.10);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: var(--radius2);
+  box-shadow: var(--shadow);
+  padding: 14px;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.card-map-bleed{
+  padding: 0;
+  overflow: hidden;
+}
+
+.card-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.card-title{ font-weight: 900; letter-spacing: .2px; }
+.card-sub{ font-size: 12px; color: rgba(255,255,255,0.70); margin-top: 2px; }
+
+.hvac-top{
+  display:flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Temp Buttons */
+.seg{
+  display:grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+.seg-btn{
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.86);
+  padding: 16px 0;
+  border-radius: 14px;
+  font-weight: 900;
+  cursor:pointer;
+  font-size: 16px;
+}
+.seg-btn:hover{ background: rgba(255,255,255,0.09); }
+.seg-btn.is-active{
+  background: rgba(10,132,255,0.22);
+  border-color: rgba(10,132,255,0.36);
+  color: rgba(255,255,255,0.95);
+}
+
+/* HVAC läuft: gewählte Temperatur rot */
+.seg-btn.is-hvac-red{
+  background: rgba(204,0,0,0.22) !important;
+  border-color: rgba(204,0,0,0.36) !important;
+  color: rgba(255,255,255,0.95) !important;
+}
+.seg-btn:disabled{
+  opacity: 0.90;
+  cursor: default;
+}
+
+/* Toggle */
+.hvac-toggle{
+  position: relative;
+  width: 100%;
+  height: 54px;
+  border-radius: 18px;
+  border: 1px solid rgba(10,132,255,0.36);
+  background: rgba(10,132,255,0.18);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset;
+  padding: 0;
+  display:flex;
+  align-items: stretch;
+  justify-content: space-between;
+  cursor:pointer;
+  user-select: none;
+  font-weight: 900;
+  letter-spacing: .1px;
+  color: rgba(255,255,255,0.94);
+  overflow:hidden;
+}
+.hvac-toggle .hvac-toggle-label{
+  z-index: 2;
+  font-size: 14px;
+  width: 50%;
+  display:flex;
+  align-items:center;
+  white-space: nowrap;
+}
+.hvac-toggle .hvac-toggle-label.off{
+  justify-content: flex-start;
+  padding-left: 16px;
+  opacity: 0.95;
+}
+.hvac-toggle .hvac-toggle-label.on{
+  justify-content: flex-end;
+  padding-right: 16px;
+  opacity: 0.78;
+}
+
+.hvac-toggle .hvac-toggle-knob{
+  position:absolute;
+  inset: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  border-radius: 18px;
+  background: rgba(10,132,255,0.78);
+  border: 1px solid rgba(10,132,255,0.45);
+  transition: left .18s ease, background .18s ease, border-color .18s ease;
+  z-index: 1;
+}
+
+.hvac-toggle.is-on{
+  background: rgba(204,0,0,0.22);
+  border-color: rgba(204,0,0,0.35);
+}
+.hvac-toggle.is-on .hvac-toggle-label.off{ opacity: 0.78; }
+.hvac-toggle.is-on .hvac-toggle-label.on{ opacity: 0.95; }
+.hvac-toggle.is-on .hvac-toggle-knob{
+  left: 50%;
+  background: rgba(204,0,0,0.80);
+  border-color: rgba(204,0,0,0.45);
+}
+
+/* Map */
+.map-wrap{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  overflow:hidden;
+  background: rgba(255,255,255,0.06);
+}
+
+@media (max-width: 899px){
+  .map-wrap{
+    height: clamp(150px, 18svh, 200px);
+  }
+}
+
+.map-frame{
+  width: 100%;
+  height: 100%;
+  border: 0;
+  visibility: hidden;
+  filter: grayscale(0.12) contrast(1.05) saturate(0.95);
+  pointer-events: none;
+}
+.map-frame.interactive{ pointer-events: auto; }
+
+.map-empty{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color: rgba(255,255,255,0.45);
+  font-weight: 800;
+  padding: 14px;
+  text-align:center;
+  z-index: 2;
+}
+
+.map-guard{
+  position:absolute;
+  inset:0;
+  z-index: 3;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding: 10px;
+  pointer-events: auto;
+  background: linear-gradient(180deg, rgba(0,0,0,0.00), rgba(0,0,0,0.16));
+}
+.map-guard.unlocked{
+  pointer-events: none;
+  background: transparent;
+}
+.map-guard-hint{
+  font-size: 12px;
+  color: rgba(255,255,255,0.72);
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 999px;
+  padding: 6px 10px;
+}
+#mapHintMobile{ display:none; }
+@media (pointer: coarse){
+  #mapHintDesktop{ display:none; }
+  #mapHintMobile{ display:block; }
+}
+
+/* Status */
+.statusbar{
+  margin-top: 12px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.70);
+  padding: 6px 2px;
+}
+
+/* Car image fade-in */
+.car-img{
+  opacity: 0;
+  transition: opacity 260ms ease;
+}
+.car-img.is-loaded{
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------
+   SOC charging flash (every 3s)
+   #socBar ist bei dir die .bar-fill (siehe index.html)
+------------------------------------------------------------ */
+#socBar{
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes socFlashSweep {
+  0%   { transform: translateX(-120%); opacity: 0; }
+  10%  { opacity: 0.70; }
+  45%  { opacity: 0.70; }
+  70%  { opacity: 0; }
+  100% { transform: translateX(120%); opacity: 0; }
+}
+
+#socBar.is-charging::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.0) 0%,
+    rgba(255,255,255,0.0) 35%,
+    rgba(255,255,255,0.60) 50%,
+    rgba(255,255,255,0.0) 65%,
+    rgba(255,255,255,0.0) 100%
+  );
+  transform: translateX(-120%);
+  animation: socFlashSweep 3s linear infinite;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}

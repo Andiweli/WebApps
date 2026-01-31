@@ -1,0 +1,16 @@
+{
+  "name": "r5-webapp",
+  "version": "1.0.0",
+  "private": true,
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+"dependencies": {
+  "@remscodes/renault-api": "^2.0.0",
+  "@remscodes/renault-api-client": "^2.0.0",
+  "dotenv": "^16.4.5",
+  "express": "^4.19.2"
+}
+}
